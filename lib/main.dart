@@ -1,25 +1,33 @@
 import 'package:flutter/material.dart';
-import 'dashboard_screen.dart';
-import 'menu_screen.dart';
-import 'login_screen.dart';
+import 'home_page.dart'; // Start Page
+import 'signup_page.dart'; // Signup Page
+import 'login_page.dart'; // Login Page
+import 'settings_page.dart'; // Settings Page
+import 'dashboard_page.dart'; // Dashboard
+
 
 void main() {
-  runApp(MyBudgetApp());
+  runApp(const MyApp());
 }
 
-class MyBudgetApp extends StatelessWidget {
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Budget App',
+      title: 'BudgetBudd - Financial Companion',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      // Define the initial route as the login screen
-      initialRoute: '/',
+      // Define the routes
       routes: {
-        '/': (context) => LoginScreen(), // Login Screen
-        '/dashboard': (context) => DashboardScreen(), // Dashboard Screen after sign up
+        '/': (context) => const HomePage(),
+        '/signup': (context) => const SignUpPage(),
+        '/login': (context) => const LoginPage(),
+        '/settings': (context) => const SettingsPage(),
+        '/dashboard': (context) => const DashboardPage(),
       },
     );
   }
