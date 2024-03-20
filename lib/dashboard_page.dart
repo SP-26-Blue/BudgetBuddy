@@ -1,27 +1,30 @@
 import 'package:flutter/material.dart';
+import 'plaid_service.dart'; // Make sure to have your PlaidService class in the correct location
 
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class DashboardPage extends StatefulWidget {
+  const DashboardPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Dashboard',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: const DashboardPage(),
-    );
-  }
+  State<DashboardPage> createState() => _DashboardPageState();
 }
 
-class DashboardPage extends StatelessWidget {
-  const DashboardPage({super.key});
+class _DashboardPageState extends State<DashboardPage> {
+  final PlaidService _plaidService = PlaidService();
+  List<Map<String, dynamic>> _transactions = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchFinancialData();
+  }
+
+  Future<void> _fetchFinancialData() async {
+    // This simulates fetching transactions. You'll replace this with your actual Plaid integration.
+    var transactions = await _plaidService.fetchTransactions('fake_access_token');
+    setState(() {
+      _transactions = transactions;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,15 +61,17 @@ class DashboardPage extends StatelessWidget {
   }
 
   Widget _buildBalanceCard() {
-    return Card(
-      margin: const EdgeInsets.all(8),
+    // Placeholder for balance card
+    return const Card(
+      margin: EdgeInsets.all(8),
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16),
         child: Column(
           children: [
-            const Text('Current Balance', style: TextStyle(fontWeight: FontWeight.bold)),
-            const Text('USD 10,000.00', style: TextStyle(fontSize: 24)),
-            Container(height: 150, color: Colors.grey[300]), // Placeholder for chart
+            Text('Current Balance', style: TextStyle(fontWeight: FontWeight.bold)),
+            Text('USD 10,000.00', style: TextStyle(fontSize: 24)),
+            // Placeholder for chart
+            SizedBox(height: 150, child: Placeholder()),
           ],
         ),
       ),
@@ -74,14 +79,16 @@ class DashboardPage extends StatelessWidget {
   }
 
   Widget _buildSavingsOverview() {
-    return Card(
-      margin: const EdgeInsets.all(8),
+    // Placeholder for savings overview
+    return const Card(
+      margin: EdgeInsets.all(8),
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16),
         child: Column(
           children: [
-            const Text('Savings Overview', style: TextStyle(fontWeight: FontWeight.bold)),
-            Container(height: 150, color: Colors.grey[300]), // Placeholder for chart
+            Text('Savings Overview', style: TextStyle(fontWeight: FontWeight.bold)),
+            // Placeholder for chart
+            SizedBox(height: 150, child: Placeholder()),
           ],
         ),
       ),
@@ -89,14 +96,16 @@ class DashboardPage extends StatelessWidget {
   }
 
   Widget _buildFinancialInsights() {
-    return Card(
-      margin: const EdgeInsets.all(8),
+    // Placeholder for financial insights
+    return const Card(
+      margin: EdgeInsets.all(8),
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16),
         child: Column(
           children: [
-            const Text('Financial Insights', style: TextStyle(fontWeight: FontWeight.bold)),
-            Container(height: 200, color: Colors.grey[300]), // Placeholder for chart
+            Text('Financial Insights', style: TextStyle(fontWeight: FontWeight.bold)),
+            // Placeholder for chart
+            SizedBox(height: 200, child: Placeholder()),
           ],
         ),
       ),
@@ -104,6 +113,7 @@ class DashboardPage extends StatelessWidget {
   }
 
   Widget _buildBudgetSection() {
+    // Placeholder for budget section
     return const Card(
       margin: EdgeInsets.all(8),
       child: Padding(
@@ -126,26 +136,19 @@ class DashboardPage extends StatelessWidget {
   }
 
   Widget _buildTransactionList() {
-    return const Card(
-      margin: EdgeInsets.all(8),
+    return Card(
+      margin: const EdgeInsets.all(8),
       child: Column(
         children: [
-          ListTile(
+          const ListTile(
             title: Text('Transactions', style: TextStyle(fontWeight: FontWeight.bold)),
           ),
-          ListTile(
-            leading: Icon(Icons.fastfood),
-            title: Text('Local Eats'),
-            subtitle: Text('Dining Out'),
-            trailing: Text('-18.96'),
-          ),
-          ListTile(
-            leading: Icon(Icons.home),
-            title: Text('Home Essentials'),
-            subtitle: Text('Household'),
-            trailing: Text('-92.50'),
-          ),
-          // More transactions can be added here
+          ..._transactions.map((transaction) => ListTile(
+            leading: const Icon(Icons.move_to_inbox),
+            title: Text(transaction['name']),
+            subtitle: Text(transaction['category']),
+            trailing: Text(transaction['amount']),
+          )),
         ],
       ),
     );
