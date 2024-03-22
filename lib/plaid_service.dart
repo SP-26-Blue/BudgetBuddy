@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:http/http.dart' as http;
 
 class PlaidService {
   // Your Plaid API credentials
@@ -9,11 +8,13 @@ class PlaidService {
   // Use the sandbox URL for testing. Switch to the production URL in a live environment.
   final String plaidUrl = 'https://sandbox.plaid.com';
 
+  get awaithttp => null;
+
   // Method to get a link token from Plaid. This is necessary for initializing Plaid Link.
   Future<String?> getLinkToken() async {
     try {
       var url = Uri.parse('$plaidUrl/link/token/create');
-      var response = await http.post(url,
+      var response = awaithttp.post(url,
           headers: {'Content-Type': 'application/json'},
           body: jsonEncode({
             'client_id': '65f21828e0f17c001cf3c258',
