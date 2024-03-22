@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       home: const LoginPage(),
       routes: {
         '/signup': (context) => const SignUpPage(),
-        '/dashboard': (context) => const DashboardPage(), // Add the route for DashboardPage
+        '/dashboard': (context) => const DashboardPage(),
       },
     );
   }
@@ -33,56 +33,65 @@ class LoginPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              const Spacer(),
-              const FlutterLogo(size: 100), // Logo placeholder
-              const SizedBox(height: 48),
-              const TextField(
-                decoration: InputDecoration(
-                  labelText: 'Email',
-                  border: OutlineInputBorder(),
+        child: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("assets/home.jpg"), // Path to your image
+              fit: BoxFit.cover, // Cover the entire space
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                const Spacer(),
+                const FlutterLogo(size: 100), // Logo placeholder
+                const SizedBox(height: 48),
+                const TextField(
+                  decoration: InputDecoration(
+                    labelText: 'Email',
+                    border: OutlineInputBorder(),
+                  ),
+                  keyboardType: TextInputType.emailAddress,
                 ),
-                keyboardType: TextInputType.emailAddress,
-              ),
-              const SizedBox(height: 16),
-              const TextField(
-                decoration: InputDecoration(
-                  labelText: 'Password',
-                  border: OutlineInputBorder(),
+                const SizedBox(height: 16),
+                const TextField(
+                  decoration: InputDecoration(
+                    labelText: 'Password',
+                    border: OutlineInputBorder(),
+                  ),
+                  obscureText: true,
                 ),
-                obscureText: true,
-              ),
-              const SizedBox(height: 24),
-              ElevatedButton(
-                onPressed: () {
-                  // Login logic would go here
+                const SizedBox(height: 24),
+                ElevatedButton(
+                  onPressed: () {
+                    // Login logic would go here
 
-                  // Navigate to the DashboardPage after successful login
-                  Navigator.pushReplacementNamed(context, '/dashboard');
-                },
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                    // Navigate to the DashboardPage after successful login
+                    Navigator.pushReplacementNamed(context, '/dashboard');
+                  },
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  ),
+                  child: const Text('Login'),
                 ),
-                child: const Text('Login'),
-              ),
-              const SizedBox(height: 16),
-              TextButton(
-                child: const Text('Don\'t have an account? Register'),
-                onPressed: () {
-                  Navigator.pushNamed(context, '/signup'); // Navigate to SignUpPage
-                },
-              ),
-              const Spacer(),
-            ],
+                const SizedBox(height: 16),
+                TextButton(
+                  child: const Text('Don\'t have an account? Register'),
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/signup'); // Navigate to SignUpPage
+                  },
+                ),
+                const Spacer(),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 }
+
 
