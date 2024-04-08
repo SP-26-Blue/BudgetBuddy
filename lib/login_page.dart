@@ -1,33 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart'; // Import FirebaseAuth
 import 'signup_page.dart';
 import 'dashboard_page.dart';
 
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class LoginPage extends StatefulWidget {
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Login',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: const LoginPage(),
-      routes: {
-        '/signup': (context) => const SignUpPage(),
-        '/dashboard': (context) => const DashboardPage(), // Add the route for DashboardPage
-      },
-    );
-  }
+  _LoginPageState createState() => _LoginPageState();
 }
 
-class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
+class _LoginPageState extends State<LoginPage> {
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  // Function to handle sign in
+  Future<void> _signInWithEmailAndPassword() async {
+    try {
+      final UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
+
+      // If the sign-in is successful, navigate to the DashboardPage
+      Navigator.pushReplacementNamed(context, '/dashboard');
+    } catch (e) {
+      // If there's any error, show a dialog or a snackbar with the error message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Username or Password is incorrect"),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,16 +47,18 @@ class LoginPage extends StatelessWidget {
               const Spacer(),
               const FlutterLogo(size: 100), // Logo placeholder
               const SizedBox(height: 48),
-              const TextField(
-                decoration: InputDecoration(
+              TextField(
+                controller: _emailController,
+                decoration: const InputDecoration(
                   labelText: 'Email',
                   border: OutlineInputBorder(),
                 ),
                 keyboardType: TextInputType.emailAddress,
               ),
               const SizedBox(height: 16),
-              const TextField(
-                decoration: InputDecoration(
+              TextField(
+                controller: _passwordController,
+                decoration: const InputDecoration(
                   labelText: 'Password',
                   border: OutlineInputBorder(),
                 ),
@@ -60,10 +67,8 @@ class LoginPage extends StatelessWidget {
               const SizedBox(height: 24),
               ElevatedButton(
                 onPressed: () {
-                  // Login logic would go here
-
-                  // Navigate to the DashboardPage after successful login
-                  Navigator.pushReplacementNamed(context, '/dashboard');
+                  // Call the sign in method here
+                  _signInWithEmailAndPassword();
                 },
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
@@ -85,4 +90,3 @@ class LoginPage extends StatelessWidget {
     );
   }
 }
-
