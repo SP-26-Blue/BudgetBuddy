@@ -34,35 +34,36 @@ class _DashboardPageState extends State<DashboardPage> {
   int _selectedIndex = 0;
 
   final List<Widget> _pages = [
-    const SingleChildScrollView(
+    SingleChildScrollView(
       child: Column(
         children: <Widget>[
-          SizedBox(height: 20),
-          BalanceCard(),
-          SizedBox(height: 30),
-          SavingsOverviewCard(),
-          SizedBox(height: 10),
-          ExpensePieChart(),
+          const SizedBox(height: 20),
+          const BalanceCard(),
+          const SizedBox(height: 30),
+          const SavingsOverviewCard(),
+          const SizedBox(height: 10),
+          const ExpensePieChart(),
           TransactionHistoryCard(transactions: [
             {'name': 'Food', 'amount': '-\$10.00'},
             {'name': 'Rent', 'amount': '-\$800.00'},
             {'name': 'Groceries', 'amount': '-\$50.00'},
           ]),
+          const SizedBox(height: 10),
+          const GoalsCard(),
         ],
       ),
     ),
-    const ProfilePage(), // Assuming this is still correct for your app's structure
-    // Removed direct reference to SettingsPage here in _pages since we're handling it differently now
+    const ProfilePage(),
+    // SettingsPage is indirectly referenced here and navigated to through _onItemTapped
   ];
 
   @override
   void initState() {
     super.initState();
-    // Initialize your state here if needed
   }
 
   void _onItemTapped(int index) {
-    if (index == 2) { // Assuming index 2 is for the Settings button
+    if (index == 2) {
       Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsPage()));
     } else {
       setState(() {
@@ -184,7 +185,7 @@ class SavingsOverviewCard extends StatelessWidget {
           ),
           SizedBox(height: 8),
           Text(
-            '1700.48',
+            '\$1700.48',
             style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.white),
           ),
         ],
@@ -274,6 +275,57 @@ class TransactionHistoryCard extends StatelessWidget {
                 ),
               ),
             )).toList(),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class GoalsCard extends StatelessWidget {
+  const GoalsCard({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final List<Map<String, dynamic>> goals = [
+      {'name': 'Savings', 'current': 350, 'total': 1000},
+      {'name': 'Tuition', 'current': 575, 'total': 1500},
+    ];
+
+    return Card(
+      color: Colors.lightGreenAccent[100],
+      elevation: 5,
+      margin: const EdgeInsets.all(16),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            const Text(
+              'Goals',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const Divider(),
+            ...goals.map((goal) {
+              double progress = goal['current'] / goal['total'];
+              return Padding(
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      '${goal['name']}: \$${goal['current']} of \$${goal['total']}',
+                      style: const TextStyle(fontSize: 16),
+                    ),
+                    LinearProgressIndicator(
+                      value: progress,
+                      backgroundColor: Colors.grey[300],
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
+                    ),
+                  ],
+                ),
+              );
+            }).toList(),
           ],
         ),
       ),

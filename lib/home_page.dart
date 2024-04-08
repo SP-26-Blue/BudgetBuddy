@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
@@ -32,7 +33,7 @@ class HomePage extends StatelessWidget {
                 const Text(
                   'BudgetBudd\nFinancial Companion',
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 16, color: Colors.grey),
+                  style: TextStyle(fontSize: 16, color: Colors.black),
                 ),
                 const Spacer(),
                 ElevatedButton(
