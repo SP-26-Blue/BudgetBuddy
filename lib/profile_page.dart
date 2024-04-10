@@ -35,11 +35,11 @@ class ProfilePage extends StatelessWidget {
             Card(
               color: Colors.white.withOpacity(0.8), // Make card slightly transparent
               margin: const EdgeInsets.symmetric(horizontal: 16),
-              child: Padding(
-                padding: const EdgeInsets.all(16),
+              child: const Padding(
+                padding: EdgeInsets.all(16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const <Widget>[
+                  children: <Widget>[
                     Text(
                       'Budget Goals',
                       style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),

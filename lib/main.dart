@@ -1,5 +1,4 @@
-import 'dart:io';
-
+import 'package:budget/transaction_page.dart';
 import 'package:flutter/material.dart';
 import 'home_page.dart'; // Start Page
 import 'signup_page.dart'; // Signup Page
@@ -42,6 +41,7 @@ class MyApp extends StatelessWidget {
         '/login': (context) => const LoginPage(),
         '/settings': (context) => SettingsPage(),
         '/dashboard': (context) => const DashboardPage(),
+        '/transaction': (context) => TransactionPage(),
       },
     );
   }
