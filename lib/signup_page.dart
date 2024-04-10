@@ -43,14 +43,14 @@ class _SignUpPageState extends State<SignUpPage> {
           // Other fields can be added here
         });
         // Navigate to the next page or show success message
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Sign up successful')));
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Sign up successful')));
         // Navigator.pushReplacementNamed(context, '/dashboard');
       } on FirebaseAuthException catch (e) {
         // Handle errors, e.g., email already in use
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.message ?? 'Unknown error')));
       } catch (e) {
         // Handle any other errors
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Failed to sign up')));
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Failed to sign up')));
       }
     }
   }
@@ -69,9 +69,9 @@ class _SignUpPageState extends State<SignUpPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  SizedBox(height: 48), // Adjusted spacing
+                  const SizedBox(height: 48), // Adjusted spacing
                   const FlutterLogo(size: 100), // Logo placeholder
-                  SizedBox(height: 48),
+                  const SizedBox(height: 48),
                   TextFormField(
                     controller: _nameController,
                     decoration: const InputDecoration(
@@ -86,7 +86,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       return null; // Future validation for uniqueness can be handled asynchronously
                     },
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   TextFormField(
                     controller: _emailController,
                     decoration: const InputDecoration(
@@ -102,7 +102,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       return null;
                     },
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   TextFormField(
                     controller: _passwordController,
                     decoration: const InputDecoration(
@@ -117,7 +117,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       return null;
                     },
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   TextFormField(
                     controller: _confirmPasswordController,
                     decoration: const InputDecoration(
@@ -132,13 +132,13 @@ class _SignUpPageState extends State<SignUpPage> {
                       return null;
                     },
                   ),
-                  SizedBox(height: 24),
+                  const SizedBox(height: 24),
                   ElevatedButton(
                     onPressed: () async {
                       if (_formKey.currentState!.validate()) {
                         bool uniqueUsername = await isUsernameUnique(_nameController.text);
                         if (!uniqueUsername) {
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Username is already taken')));
+                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Username is already taken')));
                           return;
                         }
                         await signUp(); // Make sure this is awaited
@@ -148,7 +148,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     child: const Text('Sign Up'),
 
                   ),
-                  SizedBox(height: 16),
+                  const SizedBox(height: 16),
                   TextButton(
                     child: const Text('Already have an account? Login'),
                     onPressed: () {

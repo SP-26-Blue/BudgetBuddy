@@ -34,22 +34,22 @@ class _DashboardPageState extends State<DashboardPage> {
   int _selectedIndex = 0;
 
   final List<Widget> _pages = [
-    SingleChildScrollView(
+    const SingleChildScrollView(
       child: Column(
         children: <Widget>[
-          const SizedBox(height: 20),
-          const BalanceCard(),
-          const SizedBox(height: 30),
-          const SavingsOverviewCard(),
-          const SizedBox(height: 10),
-          const ExpensePieChart(),
+          SizedBox(height: 20),
+          BalanceCard(),
+          SizedBox(height: 30),
+          SavingsOverviewCard(),
+          SizedBox(height: 10),
+          ExpensePieChart(),
           TransactionHistoryCard(transactions: [
             {'name': 'Food', 'amount': '-\$10.00'},
             {'name': 'Rent', 'amount': '-\$800.00'},
             {'name': 'Groceries', 'amount': '-\$50.00'},
           ]),
-          const SizedBox(height: 10),
-          const GoalsCard(),
+          SizedBox(height: 10),
+          GoalsCard(),
         ],
       ),
     ),
@@ -320,7 +320,7 @@ class GoalsCard extends StatelessWidget {
                     LinearProgressIndicator(
                       value: progress,
                       backgroundColor: Colors.grey[300],
-                      valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
+                      valueColor: const AlwaysStoppedAnimation<Color>(Colors.green),
                     ),
                   ],
                 ),
