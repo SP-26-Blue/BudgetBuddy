@@ -1,24 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/services.dart'; // For PlatformException
-
-
-
-
+// For PlatformException
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key}) : super(key: key);
   @override
   _SignUpPageState createState() => _SignUpPageState();
 }
+
 class _SignUpPageState extends State<SignUpPage> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
-
 
   Future<bool> isUsernameUnique(String username) async {
     final query = await FirebaseFirestore.instance
@@ -27,7 +23,6 @@ class _SignUpPageState extends State<SignUpPage> {
         .get();
     return query.docs.isEmpty;
   }
-
 
   Future<void> signUp() async {
     if (_formKey.currentState!.validate()) {
@@ -55,109 +50,114 @@ class _SignUpPageState extends State<SignUpPage> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(24.0),
-          child: Form(
-            key: _formKey,
-            child: SingleChildScrollView( // Added to enable scrolling
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  const SizedBox(height: 48), // Adjusted spacing
-                  const FlutterLogo(size: 100), // Logo placeholder
-                  const SizedBox(height: 48),
-                  TextFormField(
-                    controller: _nameController,
-                    decoration: const InputDecoration(
-                      labelText: 'Name',
-                      border: OutlineInputBorder(),
-                    ),
-                    keyboardType: TextInputType.name,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter a username';
-                      }
-                      return null; // Future validation for uniqueness can be handled asynchronously
-                    },
-                  ),
-                  const SizedBox(height: 16),
-                  TextFormField(
-                    controller: _emailController,
-                    decoration: const InputDecoration(
-                      labelText: 'Email',
-                      border: OutlineInputBorder(),
-                    ),
-                    keyboardType: TextInputType.emailAddress,
-                    validator: (value) {
-                      if (value == null || value.isEmpty ||
-                          !value.contains('@')) {
-                        return 'Please enter a valid email';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 16),
-                  TextFormField(
-                    controller: _passwordController,
-                    decoration: const InputDecoration(
-                      labelText: 'Password',
-                      border: OutlineInputBorder(),
-                    ),
-                    obscureText: true,
-                    validator: (value) {
-                      if (value == null || value.isEmpty || value.length < 6) {
-                        return 'Password must be at least 6 characters';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 16),
-                  TextFormField(
-                    controller: _confirmPasswordController,
-                    decoration: const InputDecoration(
-                      labelText: 'Confirm Password',
-                      border: OutlineInputBorder(),
-                    ),
-                    obscureText: true,
-                    validator: (value) {
-                      if (value != _passwordController.text) {
-                        return 'Passwords do not match';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 24),
-                  ElevatedButton(
-                    onPressed: () async {
-                      if (_formKey.currentState!.validate()) {
-                        bool uniqueUsername = await isUsernameUnique(_nameController.text);
-                        if (!uniqueUsername) {
-                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Username is already taken')));
-                          return;
+        child: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("assets/home.jpg"),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Form(
+              key: _formKey,
+              child: SingleChildScrollView( // Added to enable scrolling
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    const SizedBox(height: 48), // Adjusted spacing
+                    const FlutterLogo(size: 100), // Logo placeholder
+                    const SizedBox(height: 48),
+                    TextFormField(
+                      controller: _nameController,
+                      decoration: const InputDecoration(
+                        labelText: 'Name',
+                        border: OutlineInputBorder(),
+                      ),
+                      keyboardType: TextInputType.name,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter a username';
                         }
-                        await signUp(); // Make sure this is awaited
-                      }
-                    },
-                    // Button styling
-                    child: const Text('Sign Up'),
-
-                  ),
-                  const SizedBox(height: 16),
-                  TextButton(
-                    child: const Text('Already have an account? Login'),
-                    onPressed: () {
-                      Navigator.pushNamed(context,
-                          '/login'); // Adjust as needed for your navigation implementation
-                    },
-                  ),
-                  SizedBox(height: 48), // Adjusted spacing
-                ],
+                        return null; // Future validation for uniqueness can be handled asynchronously
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                    TextFormField(
+                      controller: _emailController,
+                      decoration: const InputDecoration(
+                        labelText: 'Email',
+                        border: OutlineInputBorder(),
+                      ),
+                      keyboardType: TextInputType.emailAddress,
+                      validator: (value) {
+                        if (value == null || value.isEmpty ||
+                            !value.contains('@')) {
+                          return 'Please enter a valid email';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                    TextFormField(
+                      controller: _passwordController,
+                      decoration: const InputDecoration(
+                        labelText: 'Password',
+                        border: OutlineInputBorder(),
+                      ),
+                      obscureText: true,
+                      validator: (value) {
+                        if (value == null || value.isEmpty || value.length < 6) {
+                          return 'Password must be at least 6 characters';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                    TextFormField(
+                      controller: _confirmPasswordController,
+                      decoration: const InputDecoration(
+                        labelText: 'Confirm Password',
+                        border: OutlineInputBorder(),
+                      ),
+                      obscureText: true,
+                      validator: (value) {
+                        if (value != _passwordController.text) {
+                          return 'Passwords do not match';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 24),
+                    ElevatedButton(
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          bool uniqueUsername = await isUsernameUnique(_nameController.text);
+                          if (!uniqueUsername) {
+                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Username is already taken')));
+                            return;
+                          }
+                          await signUp(); // Make sure this is awaited
+                        }
+                      },
+                      // Button styling
+                      child: const Text('Sign Up'),
+                    ),
+                    const SizedBox(height: 16),
+                    TextButton(
+                      child: const Text('Already have an account? Login'),
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/login'); // Adjust as needed for your navigation implementation
+                      },
+                    ),
+                    const SizedBox(height: 48), // Adjusted spacing
+                  ],
+                ),
               ),
             ),
           ),
@@ -165,4 +165,4 @@ class _SignUpPageState extends State<SignUpPage> {
       ),
     );
   }
-  }
+}

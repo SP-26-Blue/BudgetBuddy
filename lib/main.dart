@@ -5,7 +5,6 @@ import 'signup_page.dart'; // Signup Page
 import 'login_page.dart'; // Login Page
 import 'settings_page.dart'; // Settings Page
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'dashboard_page.dart'; // Dashboard
 
 
@@ -39,9 +38,9 @@ class MyApp extends StatelessWidget {
         '/': (context) => const HomePage(),
         '/signup': (context) => const SignUpPage(),
         '/login': (context) => const LoginPage(),
-        '/settings': (context) => SettingsPage(),
+        '/settings': (context) => const SettingsPage(),
         '/dashboard': (context) => const DashboardPage(),
-        '/transaction': (context) => TransactionPage(),
+        '/transaction': (context) => const TransactionPage(),
       },
     );
   }
