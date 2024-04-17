@@ -1,141 +1,132 @@
 import 'package:flutter/material.dart';
+import 'dashboard_page.dart'; // Your DashboardPage file
+import 'profile_page.dart';
 
-void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class SettingsPage extends StatefulWidget {
+  const SettingsPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Dashboard',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: const SettingsPage(),
-    );
-  }
+  _SettingsPageState createState() => _SettingsPageState();
 }
 
-class SettingsPage extends StatelessWidget {
-  const SettingsPage({super.key});
+class _SettingsPageState extends State<SettingsPage> {
+  int _selectedIndex = 2; // Assuming Settings is the third item in the nav bar
+  bool _notificationsEnabled = true;
+  double _dailyBudget = 50.0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+    switch (index) {
+      case 0:
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => const DashboardPage()));
+        break;
+      case 1:
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => const ProfilePage()));
+        break;
+    // No action if the Settings button (index 2) is tapped since we're already on the Settings page
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Dashboard'),
-        actions: [
+        title: const Text('Settings', style: TextStyle(color: Colors.white)),
+        backgroundColor: Colors.blue,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        actions: <Widget>[
           IconButton(
-            icon: const Icon(Icons.notifications),
+            icon: const Icon(Icons.save, color: Colors.white),
             onPressed: () {
-              // Handle notifications
+              // Placeholder for save settings functionality
             },
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Monthly Summary',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/home.jpg"),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Center(
+          child: Container(
+            padding: const EdgeInsets.all(24),
+            child: ListView(
+              children: <Widget>[
+                SwitchListTile(
+                  title: const Text('Enable Notifications', style: TextStyle(color: Colors.white)),
+                  value: _notificationsEnabled,
+                  onChanged: (bool value) {
+                    setState(() {
+                      _notificationsEnabled = value;
+                    });
+                  },
+                  activeColor: Colors.lightGreen,
+                ),
+                ListTile(
+                  title: const Text('Daily Budget', style: TextStyle(color: Colors.white)),
+                  subtitle: Slider(
+                    min: 0,
+                    max: 100,
+                    divisions: 100,
+                    label: _dailyBudget.toString(),
+                    value: _dailyBudget,
+                    onChanged: (double value) {
+                      setState(() {
+                        _dailyBudget = value;
+                      });
+                    },
+                    activeColor: Colors.lightGreen,
+                    inactiveColor: Colors.lightGreen[100],
+                  ),
+                  trailing: Text('\$${_dailyBudget.toStringAsFixed(0)}', style: const TextStyle(color: Colors.white)),
+                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.red, // Background color
+                  ),
+                  onPressed: () => _logOut(context),
+                  child: const Text('Log Out'),
+                ),
+                // Add other settings widgets here...
+              ],
             ),
-            const SizedBox(height: 8),
-            const Text(
-              'Income',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                // View all incomes
-              },
-              style: ElevatedButton.styleFrom(
-                foregroundColor: Colors.white, backgroundColor: Colors.blue, // Text color
-              ),
-              child: const Text('View All'),
-            ),
-            Expanded(
-              child: GridView.count(
-                crossAxisCount: 2,
-                childAspectRatio: 3,
-                children: [
-                  _buildCard(context, Icons.lightbulb_outline, 'Expenses', 'Utilities'),
-                  _buildCard(context, Icons.savings, 'Savings', 'Emergency'),
-                  _buildCard(context, Icons.home, 'Budget', 'Housing'),
-                  _buildCard(context, Icons.directions_car, 'Transport', 'Transporta'),
-                ],
-              ),
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                // View financial details
-              },
-              style: ElevatedButton.styleFrom(
-                foregroundColor: Colors.black, backgroundColor: Colors.grey[300], // Text color
-              ),
-              child: const Text('View Details'),
-            ),
-            const SizedBox(height: 16),
-            const Text(
-              'Budget Progress Overview',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            // The icon and title could be part of a ListTile
-            ListTile(
-              leading: const Icon(Icons.notifications),
-              title: const Text('Notifications'),
-              trailing: const Icon(Icons.chevron_right),
-              onTap: () {
-                // Handle tap
-              },
-            ),
-          ],
+          ),
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.dashboard),
-            label: 'Dashboard',
+            icon: Icon(Icons.home),
+            label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.access_time),
-            label: 'Reminders',
+            icon: Icon(Icons.person),
+            label: 'Profile',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.flag),
-            label: 'Budget Goals',
+            icon: Icon(Icons.settings),
+            label: 'Settings',
           ),
         ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Colors.amber[800],
+        onTap: _onItemTapped,
       ),
     );
   }
 
-  Widget _buildCard(BuildContext context, IconData icon, String title, String subtitle) {
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, size: 32),
-            const SizedBox(height: 8),
-            Text(
-              title,
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-            ),
-            Text(subtitle),
-          ],
-        ),
-      ),
-    );
+  void _logOut(BuildContext context) {
+    // Implement your log out logic here, such as clearing user data or navigating to a login screen.
+    Navigator.pop(context);
   }
 }
