@@ -3,6 +3,8 @@ import 'dashboard_page.dart'; // Your DashboardPage file
 import 'profile_page.dart';
 
 class SettingsPage extends StatefulWidget {
+  const SettingsPage({super.key});
+
   @override
   _SettingsPageState createState() => _SettingsPageState();
 }

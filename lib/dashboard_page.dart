@@ -64,7 +64,7 @@ class _DashboardPageState extends State<DashboardPage> {
 
   void _onItemTapped(int index) {
     if (index == 2) {
-      Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsPage()));
+      Navigator.push(context, MaterialPageRoute(builder: (context) => const SettingsPage()));
     } else {
       setState(() {
         _selectedIndex = index;
