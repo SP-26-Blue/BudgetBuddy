@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'profile_page.dart'; // Make sure this is pointing to the correct file
 import 'settings_page.dart'; // Assuming this is your SettingsPage
+import 'transaction_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -65,6 +66,8 @@ class _DashboardPageState extends State<DashboardPage> {
   void _onItemTapped(int index) {
     if (index == 2) {
       Navigator.push(context, MaterialPageRoute(builder: (context) => const SettingsPage()));
+    } else if (index == 3) { // Check for index 3, which corresponds to the new item
+      Navigator.push(context, MaterialPageRoute(builder: (context) => const TransactionPage()));
     } else {
       setState(() {
         _selectedIndex = index;
@@ -90,6 +93,7 @@ class _DashboardPageState extends State<DashboardPage> {
           children: _pages,
         ),
       ),
+
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -104,11 +108,17 @@ class _DashboardPageState extends State<DashboardPage> {
             icon: Icon(Icons.settings),
             label: 'Settings',
           ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.attach_money),
+            label: 'Transactions',
+          ),
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: Colors.amber[800],
+        unselectedItemColor: Colors.orange, // Set the unselected item color here
         onTap: _onItemTapped,
       ),
+
     );
   }
 }

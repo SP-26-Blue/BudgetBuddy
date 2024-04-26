@@ -21,26 +21,41 @@ class MyApp extends StatelessWidget {
 }
 
 class TransactionPage extends StatelessWidget {
-  const TransactionPage({super.key});
+  const TransactionPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    // Fetching screen size
+    Size screenSize = MediaQuery.of(context).size;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Transactions'),
       ),
-      body: const SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            GoalInfoCard(),
-            SpendingInfoCard(),
-            TransactionsBox(),
-          ],
+      body: Container(
+        height: screenSize.height, // Set height to full screen height
+        width: screenSize.width,  // Set width to full screen width
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('assets/home.jpg'),
+            fit: BoxFit.fill, // Set BoxFit.fill to stretch the image to fill the screen
+          ),
+        ),
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              GoalInfoCard(),
+              SpendingInfoCard(),
+              TransactionsBox(),
+            ],
+          ),
         ),
       ),
     );
   }
 }
+
+
 
 class GoalInfoCard extends StatelessWidget {
   const GoalInfoCard({super.key});
